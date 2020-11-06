@@ -31,7 +31,7 @@ socket.on('refreshHud',function(data) {
   for (var i = 0; i < data.bases.length; i++) {
     var base = data.bases[i]
     var class_str = base.type + " " + base.faction
-    if (i <  data.bases.length - 1) {
+    if (i < data.bases.length - 1) {
       if (base.faction == "NS") {
         class_str += " After" +  data.bases[i + 1].faction
       } else {

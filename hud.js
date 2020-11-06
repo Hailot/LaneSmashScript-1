@@ -1,11 +1,33 @@
 const app = require('./app.js');
 
 const lanes = require('./lanes.js');
+const match = require('./match.js');
 
 class HUD {
   constructor() {
     this.zone = 2
     this.bases = [];
+    this.conflictZone = [];
+  }
+
+  computeConflictZone(){
+    this.conflictZone = [];
+    var factionUsed = match.getFactionUsed()
+    for (var i = 0;  i < this.bases.lenght - 1; i++) {
+      var base = this.bases[i]
+      var nextBase = this.bases[i + 1]
+      if (factionUsed.includes(base.faction) && factionUsed.includes(nextBase.faction)){
+        var newInstance = new lanes.Base(base.id, base.type, base.name, base.home)
+        this.conflictZone.push(base)
+        var newInstance2 = new lanes.Base(base.id, base.type, base.name, base.home)
+        this.conflictZone.push(nextBase)
+        return
+      } else if (!(factionUsed.includes(base.faction))) {
+        var newInstance = new lanes.Base(base.id, base.type, base.name, base.home)
+        this.conflictZone.push(base)
+        return
+      }
+    }
   }
 
   updateBase(facilityId, factionId) {
